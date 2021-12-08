@@ -19,7 +19,7 @@ def fun():
         template = {k: v for k, v in template.items() if
                     v}  # remove key-value pairs where value is empty such as 'father': ''
         print("template: ", template)
-        print("headers: ", request.headers)
+        print("headers: ", request.headers.get("Email"))
         if (template.get("cat_id") == None or
             template.get("breeder_id") == None
             ):
