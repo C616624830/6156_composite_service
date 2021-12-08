@@ -19,7 +19,9 @@ def fun():
         template = {k: v for k, v in template.items() if
                     v}  # remove key-value pairs where value is empty such as 'father': ''
         print("template: ", template)
-        if (template.get("cat_id") == None or template.get("breeder_id") == None):
+        if (template.get("cat_id") == None or
+            template.get("breeder_id") == None
+            ):
             return Response(json.dumps({"code": "300", "message": "request does not have data or cat is none"}),
                             content_type="application/json")
 
@@ -27,7 +29,7 @@ def fun():
         breeder_id = template.get("breeder_id")
         print("cat_id: ", cat_id)
         print("breeder_id: ", breeder_id)
-        res = asyncio.run(asy.main(cat_id, breeder_id))
+        res = asyncio.run(asy.main(cat_id, breeder_id, request.headers))
         print("async run res: ", res[0].json(), res[1].json())
         return Response(json.dumps({"code": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}),
                             content_type="application/json")
