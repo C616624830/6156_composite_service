@@ -12,6 +12,15 @@ logger.setLevel(logging.INFO)
 app = Flask(__name__)
 CORS(app)
 
+def ret_message(status, message, headers = "null"):
+    return Response(json.dumps({"status": status, "message": message, "headers": headers}, default=str), content_type="application/json")
+
+def parse_cat_breeder(cat_info, breeder_info):
+    if (cat_info.status != "200" or breeder_info.status != "200"):
+        return ret_message("300","get cat or breeder info error")
+    else:
+        return ret_message("200", {"cat": cat_info.message, "breeder": breeder_info.message}, {**cat_info.headers, **breeder_info.headers})
+
 @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def fun():
     if request.method == "GET":
@@ -32,9 +41,10 @@ def fun():
         print("breeder_id: ", breeder_id)
         res = asyncio.run(asy.main(cat_id, breeder_id, request.headers))
         print("async run res: ", res[0].json(), res[1].json())
-        res = Response(json.dumps({"status": "300", "message": {"cat": res[0].json(), "breeder": res[1].json()}}))
-        res.headers["hello"] = "world"
-        return res
+        message = parse_cat_breeder(res[0].json(), res[1].json())
+        # return ret_message("200", {"cat": res[0].json(), "breeder": res[1].json()})
+        print("message: ", message)
+        return message
     else:
         return
 
