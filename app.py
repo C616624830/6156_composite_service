@@ -34,11 +34,9 @@ def fun():
         print("async run res: ", res[0].json(), res[1].json())
         # return Response(json.dumps({"status": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}))
                         # , content_type="application/json")
-        return json.dumps({
-   'success': True
-}), 400, {
-   'hello': 'world'
-}
+        rsp = Response(json.dumps("success", default=str), status=300, content_type="application/json")
+        rsp.headers['hello'] = '/cats'
+        return rsp
     else:
         return
 
