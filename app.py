@@ -32,6 +32,7 @@ def fun():
         print("breeder_id: ", breeder_id)
         res = asyncio.run(asy.main(cat_id, breeder_id, request.headers))
         print("async run res: ", res[0].json(), res[1].json())
+        Response.headers["hello"] = "world"
         return Response(json.dumps({"code": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}),
                             content_type="application/json")
     else:
