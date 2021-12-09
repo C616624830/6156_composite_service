@@ -43,7 +43,7 @@ def fun():
         print("async run res: ", res[0].json(), res[1].json())
         message = parse_cat_breeder(res[0].json(), res[1].json())
         # return ret_message("200", {"cat": res[0].json(), "breeder": res[1].json()})
-        print("message: ", message[0].json())
+        print("message: ", message.json())
         return message
     else:
         return
