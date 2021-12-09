@@ -13,13 +13,13 @@ async def main(cat_id, breeder_id, headers):
 async def search_cat(cat_id, headers):
     para = {"id": cat_id}
     headers = {"Email" : headers.get("Email"), "id_token" : headers.get("id_token")}
-    res = requests.get(url="https://d25a811kxhsede.cloudfront.net/dev/cats", params=para, headers=headers)
+    res = requests.get(url="https://d25a811kxhsede.cloudfront.net/dev/getcats", params=para, headers=headers)
     print("cat_res: ", res)
     return res
 
 async def search_breeder(breeder_id, headers):
     para = {"id": breeder_id}
     headers = {"Email": headers.get("Email"), "id_token": headers.get("id_token")}
-    res = requests.get(url="https://d25a811kxhsede.cloudfront.net/dev/breeders", params=para, headers=headers)
+    res = requests.get(url="https://d25a811kxhsede.cloudfront.net/dev/getbreeders", params=para, headers=headers)
     print("breeder_res: ", res)
     return res
