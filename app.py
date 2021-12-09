@@ -34,7 +34,9 @@ def fun():
         print("async run res: ", res[0].json(), res[1].json())
         # return Response(json.dumps({"code": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}),
         #                     content_type="application/json")
-        return Response(json.dumps({"cat": res[0].json(), "breeder": res[1].json()}, default=str), status=400, content_type="application/json")
+        ret = Response(json.dumps({"cat": res[0].json(), "breeder": res[1].json()}, default=str), status=400, content_type="application/json")
+        print("ret: ", ret)
+        return ret
     else:
         return
 
