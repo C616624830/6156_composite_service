@@ -32,11 +32,8 @@ def fun():
         print("breeder_id: ", breeder_id)
         res = asyncio.run(asy.main(cat_id, breeder_id, request.headers))
         print("async run res: ", res[0].json(), res[1].json())
-        # return Response(json.dumps({"code": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}),
-        #                     content_type="application/json")
-        ret = Response(json.dumps({"cat": res[0].json(), "breeder": res[1].json()}, default=str), status=400, mimetype="application/json")
-        print("ret: ", ret)
-        return ret
+        return Response(json.dumps({"status": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}))
+                        # , content_type="application/json")
     else:
         return
 
