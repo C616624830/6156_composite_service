@@ -34,9 +34,11 @@ def fun():
         print("async run res: ", res[0].json(), res[1].json())
         # return Response(json.dumps({"status": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}))
                         # , content_type="application/json")
-        resp = make_response(json.dumps({"status": "200", "message": {"cat": res[0].json(), "breeder": res[1].json()}}), 404)
-        resp.headers['X-Something'] = 'A value'
-        return resp
+        return json.dumps({
+   'success': True
+}), 200, {
+   'ContentType': 'application/json'
+}
     else:
         return
 
