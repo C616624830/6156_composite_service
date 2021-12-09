@@ -36,8 +36,8 @@ def fun():
                         # , content_type="application/json")
         return json.dumps({
    'success': True
-}), 200, {
-   'ContentType': 'application/json'
+}), 400, {
+   'hello': 'world'
 }
     else:
         return
