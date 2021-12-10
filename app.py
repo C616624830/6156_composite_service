@@ -2,9 +2,13 @@ from flask import *
 from flask_cors import CORS
 import json
 import logging
-import middleware.async_helper as asy
+import composite_services.search_and_search_composite.search_breeder_and_cat as asy
+import composite_services.search_and_user_composite_service.get_breeder_helper as gb
+import composite_services.search_and_user_composite_service.post_breeder_helper as pb
+import composite_services.search_and_user_composite_service.delete_breeder_helper as db
+from composite_services.utility import parse
+from composite_services.utility import ret_message
 import asyncio
-import grequests
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
@@ -13,17 +17,9 @@ logger.setLevel(logging.INFO)
 app = Flask(__name__)
 CORS(app)
 
-def ret_message(status, message, headers ={}):
-    return Response(json.dumps({"status": status, "message": message, "headers": headers}, default=str), content_type="application/json")
 
-def parse_cat_breeder(cat_info, breeder_info):
-    if (cat_info.get("status") != "200" or breeder_info.get("status") != "200"):
-        return ret_message("300","get cat or breeder info error")
-    else:
-        return ret_message("200", {"cat": cat_info["message"], "breeder": breeder_info["message"]}, {**cat_info["headers"], **breeder_info["headers"]})
-
-@app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def fun():
+@app.route('/cats_and_breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def cats_and_breeders():
     if request.method == "GET":
         template = request.args.to_dict()
         template = {k: v for k, v in template.items() if
@@ -50,40 +46,19 @@ def fun():
         return
 
 
-@app.route('/breeders', method=['DELETE'])
+@app.route('/breeders', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def breeders():
     if request.method == 'GET':
-        template = request.args.to_dict()
-        id = template.get('id', None)
-        template = {k: v for k, v in template.items() if
-                    v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
-        # print('template:', template)
-        # print('id:', id)
-        res = None
-        try:
-            if not id.isdigit() or int(id) <= 0:
-                rsp = Response(json.dumps("id in wrong format", default=str), status=400,
-                               content_type="application/json")
-                return rsp
-            elif not BreederResource.check_breeder_id_exist(id):
-                rsp = Response(json.dumps("id does not exist", default=str), status=422,
-                               content_type="application/json")
-                return rsp
+        res = gb.helper(request)
+        return res
 
-            urls = [
-                
-            ]
+    elif request.method == 'POST':
+        res = pb.helper(request)
+        return res
 
-        except pymysql.err.OperationalError as e:
-            print(f"error: {e}")
-            rsp = Response(json.dumps("Internal Server Error", default=str), status=500,
-                           content_type="application/json")
-            return rsp
-
-
-        rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
-        return rsp
-
+    elif request.method == 'DELETE':
+        res = db.helper(request)
+        return res
 
 
 if __name__ == '__main__':
