@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
@@ -52,15 +53,43 @@
 <!-- Navbar End-->
 <div class="formula_content">
     <div class="page-header" id="page_header">
-        <h1>CAT LIST</h1>
+        <center><h1>CAT LIST</h1></center>
     </div>
 </div>
 <br>
 <br>
-<h3>Cat List: </h3>
 <div id="catList"></div>
-<div id="pagination"></div>
 </body>
+
+
+<div class="container">
+    <div class="main-body">
+
+          <div class="row gutters-sm">
+
+
+              <div class="row gutters-sm">
+                <div class="col-sm-60 mb-30">
+                  <div class="card h-140">
+                    <center><div class="card-body" id="catDiv">
+                    <h2 class=" align-items-center ">All Cats</h2></div>
+                    <div id="pagination"></div></center>
+
+
+                      <!-- <ul class="list-group" id="cat_body">
+                      </ul> -->
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+
 <script type="text/javascript">
     // let curServer = "https://d25a811kxhsede.cloudfront.net/dev";
     let curServer = "https://d25a811kxhsede.cloudfront.net/dev";
@@ -93,21 +122,21 @@
             console.log(cat_info['breeder']);
             let cat_infoDiv = document.createElement("div");
             cat_infoDiv.innerHTML = constructIssue(cat_info) + "<br>";
-            document.getElementById("catList").appendChild(cat_infoDiv);
+            document.getElementById("catDiv").appendChild(cat_infoDiv);
         }
     }
 
     function paginationInjection(r) {
         document.getElementById("pagination").innerHTML = "";
         let links = r["message"]["links"]
+        document.getElementById("pagination").innerHTML += "<a href=\"cat_profile.html?path=" + links[2]["href"]+"\">" + "[" + links[2]["rel"] + "]"  + "</a>"+ " ";
 
         document.getElementById("pagination").innerHTML += "<a href=\"cat_profile.html?path=" + links[1]["href"]+"\">" + "[" + links[1]["rel"] + "]"  + "</a>"+ " ";
 
-        document.getElementById("pagination").innerHTML += "<a href=\"cat_profile.html?path=" + links[2]["href"]+"\">" + "[" + links[2]["rel"] + "]"  + "</a>"+ " ";
     }
 
     function constructIssue(issue) {
-        return "<a href=\"cat_detail.html?id=" + issue["id"] + "\">" + issue["id"] + "</a>"+" ";
+        return "<a href=\"cat_detail.html?id=" + issue["id"] + "\">" + issue["id"] + "."+issue["name"] + "</a>"+" ";
     }
 </script>
 </html>
