@@ -4,6 +4,7 @@ import json
 import logging
 import middleware.async_helper as asy
 import asyncio
+import grequests
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
@@ -47,6 +48,41 @@ def fun():
         return message
     else:
         return
+
+
+@app.route('/breeders', method=['DELETE'])
+def breeders():
+    if request.method == 'GET':
+        template = request.args.to_dict()
+        id = template.get('id', None)
+        template = {k: v for k, v in template.items() if
+                    v and k != 'id'}  # remove key-value pairs where value is empty such as 'father': ''
+        # print('template:', template)
+        # print('id:', id)
+        res = None
+        try:
+            if not id.isdigit() or int(id) <= 0:
+                rsp = Response(json.dumps("id in wrong format", default=str), status=400,
+                               content_type="application/json")
+                return rsp
+            elif not BreederResource.check_breeder_id_exist(id):
+                rsp = Response(json.dumps("id does not exist", default=str), status=422,
+                               content_type="application/json")
+                return rsp
+
+            urls = [
+                
+            ]
+
+        except pymysql.err.OperationalError as e:
+            print(f"error: {e}")
+            rsp = Response(json.dumps("Internal Server Error", default=str), status=500,
+                           content_type="application/json")
+            return rsp
+
+
+        rsp = Response(json.dumps(res, default=str), status=200, content_type="application/json")
+        return rsp
 
 
 

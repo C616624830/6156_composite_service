@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-light navbar-light">
+  <div class="container">
+    <a class="navbar-brand" href="#"
+      ><img
+        id="catmania-logo"
+        src="https://6156user.s3.us-east-2.amazonaws.com/catmania-logo.png"
+        alt="Catmania Logo"
+        draggable="false"
+        height="60"
+    /></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link mx-2" href="https://d25a811kxhsede.cloudfront.net/index_user.html"><i class="fas fa-plus-circle pe-2"></i>Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2" href="https://d25a811kxhsede.cloudfront.net/profile.html"><i class="fas fa-plus-circle pe-2"></i>Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2" href="https://d25a811kxhsede.cloudfront.net/profile.html"><i class="fas fa-plus-circle pe-2"></i>Breeders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2" href="https://d25a811kxhsede.cloudfront.net/profile.html"><i class="fas fa-plus-circle pe-2"></i>Cats</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2" href="https://d25a811kxhsede.cloudfront.net/formula.html"><i class="fas fa-bell pe-2"></i>Posts</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navbar End-->
+<div class="formula_content">
+    <div class="page-header" id="page_header">
+        <h1>CAT DETAIL</h1>
+    </div>
+</div>
+<br>
+<br>
+<h3>Cat detail: </h3>
+<div id="name"></div>
+<div id="breederEmail"></div>
+<div id="DOB"></div>
+<div id="color"></div>
+<div id="race"></div>
+<div id="listing_price"></div>
+
+
+</body>
+<script type="text/javascript">
+    // let curServer = "https://d25a811kxhsede.cloudfront.net/dev";
+    let curServer = "https://d25a811kxhsede.cloudfront.net/dev";
+    let ino = window.location.href.split("id=")[1];
+    console.log(curServer)
+     window.onload = function () {
+        $.ajax({
+            url: curServer + "/getcats?id="+ino,
+            type: 'GET',
+            cache: false,
+            processData: false,
+            contentType: 'application/json',
+            success: function (r) {
+                console.log(r)
+                informationInjection(r);
+            }
+        })
+    }
+
+    function informationInjection(r) {
+        let cat_info = r["message"]["data"][0];
+        console.log(cat_info)
+        document.getElementById("name").innerHTML = "Name: " + cat_info["name"]
+        document.getElementById("breederEmail").innerHTML = "breederEmail: " + cat_info["breeder"]
+        document.getElementById("DOB").innerHTML = "DOB: " + cat_info["DOB"]
+        document.getElementById("color").innerHTML = "color: " + cat_info["color"]
+        document.getElementById("race").innerHTML = "race: " + cat_info["race"]
+        document.getElementById("listing_price").innerHTML = "listing_price: " + cat_info["listing_price"]
+    }
+
+</script>
+</html>
