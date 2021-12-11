@@ -7,7 +7,7 @@ def parse(info1, info2):
     if (info1.get("status")[0] != '2' or info2.get("code")[0] != '2'):
         return ret_message("400","error")
     else:
-        return ret_message("200", "success", {**info1["headers"], **info2["headers"]})
+        return ret_message("204", "success", {**info1["headers"], **info2["headers"]})
 
 
 def helper(request):
