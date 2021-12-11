@@ -4,8 +4,10 @@ from composite_services.utility import ret_message
 
 
 def parse(info1, info2):
-    if (info1.get("status")[0] != '2' or info2.get("code")[0] != '2'):
-        return ret_message("400","error")
+    if (info1.get("status")[0] != '2'):
+        return ret_message(info1.get("status"),info1.get("message"))
+    elif (info2.get("code")[0] != '2'):
+        return ret_message(info2.get("code"), info2.get("message"))
     else:
         return ret_message("204", "success", {**info1["headers"], **info2["headers"]})
 
