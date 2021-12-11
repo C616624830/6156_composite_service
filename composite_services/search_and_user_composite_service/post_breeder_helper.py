@@ -19,7 +19,7 @@ def helper(request):
         return ret_message("400", "error")
 
     template1 = {k: v for k, v in template.items() if
-                v and k!='id_token' and k!='Email'}
+                v and k!='id_token' and k!='Email' and k!='Name'}
     template2 = {k: v for k, v in template.items() if
                  v and (k == 'Name' or k == 'Email' or k == 'id_token')}
 
