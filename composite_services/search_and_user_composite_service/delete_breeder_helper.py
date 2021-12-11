@@ -1,7 +1,14 @@
 import requests
 import asyncio
 from composite_services.utility import ret_message
-from composite_services.utility import parse
+
+
+def parse(info1, info2):
+    if (info1.get("status")[0] != '2' or info2.get("code")[0] != '2'):
+        return ret_message("400","error")
+    else:
+        return ret_message("200", "success", {**info1["headers"], **info2["headers"]})
+
 
 def helper(request):
     print("request.headers.get('Email'): ", request.headers.get('Email'))
