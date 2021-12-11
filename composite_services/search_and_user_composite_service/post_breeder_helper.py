@@ -7,7 +7,7 @@ def parse(info1, info2):
     if (info1.get("status")[0] != '2'):
         return ret_message(info1.get("status"),info1.get("message"))
     elif (info2.get("code")[0] != '2'):
-        return ret_message(info2.get("status"), info2.get("message"))
+        return ret_message(info2.get("code"), info2.get("message"))
     else:
         return ret_message("201", "success", {**info1["headers"], **info2["headers"]})
 
